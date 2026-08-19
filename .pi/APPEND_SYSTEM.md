@@ -48,6 +48,29 @@
 
 ## 标准开发工作流（修 bug / 新功能通用）
 
+### 0. 查重：确认上游没有人在做（gh cli）
+
+动手前先搜 upstream 的 issue、PR 和近期 commit，避免重复劳动或与在途工作冲突：
+
+```bash
+# 相关 open issue（把 <关键词> 换成功能点/报错信息）
+gh search issues --repo ccch1mneyyy/dsh-TUI "<关键词>" --state open
+
+# 相关 open PR
+gh search prs --repo ccch1mneyyy/dsh-TUI "<关键词>" --state open
+
+# 上游近期 commit 是否已修/已实现
+git fetch upstream
+git log --oneline --grep="<关键词>" upstream/main -20
+
+# 顺带看 upstream 活跃分支（对照本文档的勘察表，注意是否有新分支）
+gh api repos/ccch1mneyyy/dsh-TUI/branches --jq '.[].name'
+```
+
+- 已有 open PR 覆盖 → 优先 review / 接续该 PR，不另起炉灶。
+- 已有 issue 认领 → PR 正文用 `Closes #N` 关联。
+- upstream/main 已修 → 直接同步，不用开发。
+
 ### 1. 同步基线
 
 ```bash
