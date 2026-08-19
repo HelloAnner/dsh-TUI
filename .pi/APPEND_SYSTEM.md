@@ -25,9 +25,11 @@
   ```
   .worktrees/
   .pi/
+  .pi
   AGENTS.md
   ```
-  保证 worktree 里 symlink 进来的个人文件不会被误 `git add`。
+  保证 worktree 里 symlink 进来的个人文件不会被误 `git add`（`.pi` 不带斜杠一条专门匹配 symlink——symlink 在 git 眼里是文件不是目录）。
+- 副作用：在 fork `main` 上，`.pi/` 下**新增**文件需 `git add -f .pi/...`（已被跟踪的文件正常 `git add`/commit 不受影响）。
 - 提交 PR 前自检：`git diff upstream/main...HEAD --stat` 中不得出现 `.pi/`、`AGENTS.md`、`.gitignore`、`.worktrees/`。
 
 ## upstream 分支勘察记录（截至 2026-08-19，via `gh api repos/ccch1mneyyy/dsh-TUI/branches` + git diff）
